@@ -5,7 +5,7 @@ public class Profesor {
     private int vidaActual;
     private int vidaMaxima;
 
-    private Profesor(Builder builder) {
+    private Profesor(ProfesorBuilder builder) {
         this.nombre = builder.nombre;
         this.materia = builder.materia;
         this.vidaMaxima = builder.vidaMaxima;
@@ -16,23 +16,23 @@ public class Profesor {
     // BUILDER
     // ==============================
 
-    public static class Builder {
+    public static class ProfesorBuilder {
 
         private String nombre;
         private String materia;
         private int vidaMaxima;
 
-        public Builder setNombre(String nombre) {
+        public ProfesorBuilder setNombre(String nombre) {
             this.nombre = nombre;
             return this;
         }
 
-        public Builder setMateria(String materia) {
+        public ProfesorBuilder setMateria(String materia) {
             this.materia = materia;
             return this;
         }
 
-        public Builder setVidaMaxima(int vidaMaxima) {
+        public ProfesorBuilder setVidaMaxima(int vidaMaxima) {
             this.vidaMaxima = vidaMaxima;
             return this;
         }
