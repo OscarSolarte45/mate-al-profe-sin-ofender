@@ -8,10 +8,16 @@ public class Main {
         GameManager gameManager = GameManager.getInstancia();
 
         List<Arma> armas = new ArrayList<>();
-        armas.add(new Arma("Borrador Pesado",20,0.90));
-        armas.add(new Arma("Regla de Metal",35,0.75));
-        armas.add(new Arma("Proyector Viejo",60,0.50));
-
+        armas.add(new Arma("Ladrillo",45,0.50));
+        armas.add(new Arma("Piedra",30,0.65));
+        armas.add(new Arma("Botella de vidrio",40,0.60));
+        armas.add(new Arma("Cuchillo",65,0.55));
+        armas.add(new Arma("Pistola",90,0.90));
+        armas.add(new Arma("Cauchera",25,0.80));
+        armas.add(new Arma("Extintor",85,0.30));
+        armas.add(new Arma("Cosedora",15,0.70));
+        armas.add(new Arma("Acido",75,0.45));
+        
         System.out.println("==========================================");
         System.out.println("       ¡BIENVENIDO A MATE AL PROFE!       ");
         System.out.println("==========================================");
