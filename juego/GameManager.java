@@ -1,7 +1,5 @@
 public class GameManager {
-
     private static GameManager instancia;
-
     private Profesor profesorActual;
     private Arma armaActual;
 
@@ -15,7 +13,6 @@ public class GameManager {
         return instancia;
     }
 
-    // Retorno 'void' idéntico al diagrama UML
     public void iniciarPartida(Profesor profesor) {
         this.profesorActual = profesor;
     }

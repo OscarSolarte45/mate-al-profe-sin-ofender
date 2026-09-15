@@ -1,5 +1,4 @@
 public class Profesor {
-
     private String nombre;
     private String materia;
     private int vidaActual;
@@ -12,12 +11,7 @@ public class Profesor {
         this.vidaActual = builder.vidaMaxima;
     }
 
-    // ==============================
-    // BUILDER
-    // ==============================
-
     public static class ProfesorBuilder {
-
         private String nombre;
         private String materia;
         private int vidaMaxima;
@@ -42,12 +36,7 @@ public class Profesor {
         }
     }
 
-    // ==============================
-    // COMPORTAMIENTO DEL PROFESOR
-    // ==============================
-
     public void recibirGolpe(int cantidad) {
-
         this.vidaActual -= cantidad;
 
         if (this.vidaActual < 0) {
@@ -58,11 +47,7 @@ public class Profesor {
     public boolean seMurio() {
         return this.vidaActual <= 0;
     }
-
-    // ==============================
-    // GETTERS
-    // ==============================
-
+    
     public String getNombre() {
         return nombre;
     }

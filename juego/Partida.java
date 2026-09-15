@@ -1,5 +1,4 @@
 public class Partida {
-
     private Profesor profesor;
 
     public Partida(Profesor profesor) {
@@ -7,53 +6,21 @@ public class Partida {
     }
 
     public void atacar(Arma arma, ZonaCuerpo zona) {
-
         double probabilidadExito = arma.getPrecision() * zona.getProbabilidadAcierto();
-
         double tirada = Math.random();
 
         if (tirada <= probabilidadExito) {
+            int golpeFinal = (int) (arma.getGolpebase() * zona.getMultiplicadorGolpe());
+            profesor.recibirGolpe(golpeFinal);
 
-            int danioFinal =
-                    (int) (
-                            arma.getGolpebase()
-                            * zona.getMultiplicadorGolpe()
-                    );
-
-            profesor.recibirGolpe(danioFinal);
-
-            System.out.println(
-                    "\n¡IMPACTO DIRECTO en la "
-                    + zona.getNombre()
-                    + "!"
-            );
-
-            System.out.println(
-                    "Daño causado: "
-                    + danioFinal
-            );
-
-            System.out.println(
-                    "Salud restante: "
-                    + profesor.getVidaActual()
-                    + "/"
-                    + profesor.getVidaMaxima()
-            );
-
+            System.out.println("\nLE PEGASTE! Le diste en "+ zona.getNombre());
+            System.out.println("Daño causado: "+ golpeFinal);
+            System.out.println("Vida restante: "+ profesor.getVidaActual()+ "/"+ profesor.getVidaMaxima());
         } else {
-
-            System.out.println(
-                    "\n¡HAS FALLADO!"
-            );
-
-            System.out.println(
-                    "El ataque hacia la "
-                    + zona.getNombre()
-                    + " no logró impactar."
-            );
+            System.out.println("\nLE FALLASTE!!");
+            System.out.println("Le apuntaste a "+ zona.getNombre()+ " pero se te desvio un poco.");
         }
     }
-
     public Profesor getProfesor() {
         return profesor;
     }
