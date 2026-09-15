@@ -9,19 +9,13 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         // ==============================
-        // OBSERVER
+        // SINGLETON
         // ==============================
 
-        ObservadorJuego notificador = new ConsolaNotificador();
+        GameManager gameManager = GameManager.getInstancia();
 
         // ==============================
-        // STRATEGY
-        // ==============================
-
-        EstrategiaAtaque estrategiaAtaque = new AtaqueEstandar();
-
-        // ==============================
-        // ARMAS DISPONIBLES
+        // ARMAS
         // ==============================
 
         List<Arma> armas = new ArrayList<>();
@@ -50,16 +44,19 @@ public class Main {
                 )
         );
 
+        // ==============================
+        // PRESENTACIÓN
+        // ==============================
 
         System.out.println("==========================================");
-        System.out.println("     ¡BIENVENIDO A MATA AL PROFE!        ");
-        System.out.println("==========================================\n");
+        System.out.println("       ¡BIENVENIDO A MATE AL PROFE!       ");
+        System.out.println("==========================================");
 
         // ==============================
-        // FACTORY METHOD
+        // SELECCIÓN DEL PROFESOR
         // ==============================
 
-        System.out.println("--- REPERTORIO DE PROFESORES ---");
+        System.out.println("\n--- REPERTORIO DE PROFESORES ---");
 
         System.out.println(
                 "1. Profe de Cálculo (Matemáticas - Salud: 150)"
@@ -74,7 +71,7 @@ public class Main {
         );
 
         System.out.print(
-                "\nSelecciona el número del profesor a enfrentar: "
+                "\nSelecciona el profesor: "
         );
 
         int opcionProfe = scanner.nextInt();
@@ -96,56 +93,83 @@ public class Main {
                 break;
 
             default:
-                System.out.println(
-                        "Opción inválida. Se seleccionará el profesor de Cálculo."
-                );
-
-                profesorFactory = new ProfesorCalculoFactory();
-                break;
+                System.out.println("Opción inválida.");
+                scanner.close();
+                return;
         }
 
-        Profesor profeObjetivo = profesorFactory.crearProfesor();
+        // ==============================
+        // FACTORY METHOD + BUILDER
+        // ==============================
 
-        notificador.alNotificar(
-                "Has seleccionado enfrentar a: "
-                + profeObjetivo.getNombre()
+        Profesor profesor = profesorFactory.crearProfesor();
+
+        // ==============================
+        // SINGLETON
+        // ==============================
+
+        gameManager.iniciarPartida(profesor);
+
+        // ==============================
+        // PARTIDA
+        // ==============================
+
+        Partida partida = new Partida(profesor);
+
+        System.out.println(
+                "\nHas seleccionado a: "
+                + profesor.getNombre()
         );
 
         // ==============================
         // BUCLE PRINCIPAL
         // ==============================
 
-        while (!profeObjetivo.seMurio()) {
-
-            System.out.println("\n------------------------------------------");
+        while (!profesor.seMurio()) {
 
             System.out.println(
-                    "Salud actual del profesor: "
-                    + profeObjetivo.getVidaActual()
-                    + "/"
-                    + profeObjetivo.getVidaMaxima()
+                    "\n------------------------------------------"
             );
 
-            System.out.println("------------------------------------------");
+            System.out.println(
+                    "Profesor: "
+                    + profesor.getNombre()
+            );
+
+            System.out.println(
+                    "Materia: "
+                    + profesor.getMateria()
+            );
+
+            System.out.println(
+                    "Salud: "
+                    + profesor.getVidaActual()
+                    + "/"
+                    + profesor.getVidaMaxima()
+            );
+
+            System.out.println(
+                    "------------------------------------------"
+            );
 
             // ==============================
-            // SELECCIÓN DE ARMA
+            // SELECCIÓN DEL ARMA
             // ==============================
 
-            System.out.println("Selecciona tu arma:");
+            System.out.println("\nSelecciona tu arma:");
 
             for (int i = 0; i < armas.size(); i++) {
 
-                Arma a = armas.get(i);
+                Arma arma = armas.get(i);
 
                 System.out.println(
                         (i + 1)
                         + ". "
-                        + a.getNombre()
+                        + arma.getNombre()
                         + " [Daño: "
-                        + a.getGolpebase()
+                        + arma.getGolpebase()
                         + " | Precisión: "
-                        + (int) (a.getPrecision() * 100)
+                        + (int) (arma.getPrecision() * 100)
                         + "%]"
                 );
             }
@@ -154,8 +178,8 @@ public class Main {
 
             int opcionArma = scanner.nextInt() - 1;
 
-            // Validación básica del arma
-            if (opcionArma < 0 || opcionArma >= armas.size()) {
+            if (opcionArma < 0 ||
+                    opcionArma >= armas.size()) {
 
                 System.out.println(
                         "Opción de arma inválida."
@@ -164,14 +188,19 @@ public class Main {
                 continue;
             }
 
-            Arma armaElegida = armas.get(opcionArma);
+            Arma armaElegida =
+                    armas.get(opcionArma);
+
+            gameManager.seleccionarArma(
+                    armaElegida
+            );
 
             // ==============================
             // SELECCIÓN DE ZONA
             // ==============================
 
             System.out.println(
-                    "\n¿A qué parte del cuerpo vas a apuntar?"
+                    "\n¿A qué zona deseas apuntar?"
             );
 
             System.out.println(
@@ -195,50 +224,59 @@ public class Main {
             switch (opcionZona) {
 
                 case 1:
-                    zonaElegida = ZonaCuerpo.CABEZA;
+                    zonaElegida =
+                            ZonaCuerpo.CABEZA;
                     break;
 
                 case 2:
-                    zonaElegida = ZonaCuerpo.TORSO;
+                    zonaElegida =
+                            ZonaCuerpo.TORSO;
                     break;
 
                 case 3:
-                    zonaElegida = ZonaCuerpo.EXTREMIDADES;
+                    zonaElegida =
+                            ZonaCuerpo.EXTREMIDADES;
                     break;
 
                 default:
                     System.out.println(
-                            "Zona inválida. Se seleccionará el torso."
+                            "Zona inválida."
                     );
 
-                    zonaElegida = ZonaCuerpo.TORSO;
-                    break;
+                    continue;
             }
 
             // ==============================
-            // EJECUCIÓN DEL ATAQUE
+            // ATAQUE
             // ==============================
 
-            estrategiaAtaque.ejecutarAtaque(
+            partida.atacar(
                     armaElegida,
-                    zonaElegida,
-                    profeObjetivo,
-                    notificador
+                    zonaElegida
             );
-
-            // ==============================
-            // DERROTA
-            // ==============================
-
-            if (profeObjetivo.seMurio()) {
-
-                notificador.alNotificar(
-                        " ¡HAS DERROTADO AL "
-                        + profeObjetivo.getNombre().toUpperCase()
-                        + "! Ganaste la materia. "
-                );
-            }
         }
+
+        // ==============================
+        // FIN DEL JUEGO
+        // ==============================
+
+        System.out.println(
+                "\n=========================================="
+        );
+
+        System.out.println(
+                "¡HAS DERROTADO AL "
+                + profesor.getNombre().toUpperCase()
+                + "!"
+        );
+
+        System.out.println(
+                "¡GANASTE LA MATERIA!"
+        );
+
+        System.out.println(
+                "=========================================="
+        );
 
         scanner.close();
     }

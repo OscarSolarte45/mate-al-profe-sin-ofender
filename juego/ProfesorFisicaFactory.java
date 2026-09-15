@@ -2,10 +2,11 @@ public class ProfesorFisicaFactory extends ProfesorFactory {
 
     @Override
     public Profesor crearProfesor() {
-        return new Profesor(
-                "Profe de Física",
-                "Ciencias",
-                200
-        );
+
+        return new Profesor.Builder()
+                .setNombre("Profe de Física")
+                .setMateria("Ciencias")
+                .setVidaMaxima(200)
+                .build();
     }
 }
