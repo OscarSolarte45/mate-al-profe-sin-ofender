@@ -4,6 +4,7 @@ public class GameManager {
 
     private Profesor profesorActual;
     private Arma armaActual;
+    private Partida partidaActual;
 
     private GameManager() {
     }
@@ -17,8 +18,10 @@ public class GameManager {
         return instancia;
     }
 
-    public void iniciarPartida(Profesor profesor) {
+    public Partida iniciarPartida(Profesor profesor) {
         this.profesorActual = profesor;
+        this.partidaActual = new Partida(profesor);
+        return this.partidaActual;
     }
 
     public Profesor getProfesorActual() {
