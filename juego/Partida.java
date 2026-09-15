@@ -8,9 +8,7 @@ public class Partida {
 
     public void atacar(Arma arma, ZonaCuerpo zona) {
 
-        double probabilidadExito =
-                arma.getPrecision()
-                * zona.getProbabilidadAcierto();
+        double probabilidadExito = arma.getPrecision() * zona.getProbabilidadAcierto();
 
         double tirada = Math.random();
 
